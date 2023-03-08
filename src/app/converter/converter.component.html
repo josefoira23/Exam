@@ -1,0 +1,15 @@
+<div class="convert-content">
+    <div>
+        <input class="textbox-input" [(ngModel)]="InputText" type="text" [disabled]="ButtonDisabled" (input)="RealTimeConvertString()" />
+    </div>
+    <div>
+        <input class="textbox-input" [(ngModel)]="OutputText" readonly type="text"/>
+    </div>
+    <div class="buttons">
+
+        <button class="submit" mat-raised-button type="submit" (click)="submit()" [disabled]="ButtonDisabled">Convert</button>
+        
+        <button class="cancel" mat-raised-button type="submit" (click)="cancel()" >Cancel</button>
+    </div>
+    
+</div>

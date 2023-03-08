@@ -1,0 +1,25 @@
+::ng-deep .convert-content
+{
+    .textbox-input{
+        font-size: 26px;
+        margin: 20px;
+        width: 500px;
+        height: 50px;
+
+    }
+    .buttons{
+        text-align: center;
+        // margin: 20px;
+        .submit{
+            margin: 20px;
+            width: 100px;
+            height: 50px;
+        }
+        .cancel{
+            margin:20px;
+            width: 100px;
+            height: 50px;
+
+        }
+    }
+}
