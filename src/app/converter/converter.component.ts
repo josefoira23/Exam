@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ConvertService } from '../shared/services/ConvertService';
-import { interval, timer } from 'rxjs';
-import { Observable } from 'rxjs';
-import { outputAst } from '@angular/compiler';
-import { clearTimeout } from 'timers';
 
 @Component({
   selector: 'app-converter',
@@ -21,12 +17,15 @@ export class ConverterComponent implements OnInit {
   cancelled =false;
   timeout:any;
   finished = false;
+  timeoutArray:number[] = [];
+  ForCancelArray:number[] = [];
+
   ngOnInit(): void {
   }
   
   RealTimeConvertString(){
     var string = this.InputText;
-    if(this.finished){
+    if(this.finished && !this.cancelled){
 
       this.service.ConvertString(string).subscribe({
         next: (response:any) => {
@@ -41,6 +40,9 @@ export class ConverterComponent implements OnInit {
   }
 
   ConvertString(string:any){
+    alert("Processing")
+    this.timeoutArray = [];
+    this.ForCancelArray = [];
     this.service.ConvertString(string).subscribe({
       next: (response:any) => {
         this.OutputText = "";
@@ -77,12 +79,9 @@ export class ConverterComponent implements OnInit {
         }
         
       },  (Math.random() + index) * (5000 - 1000) - (index *1000));
-      
-    // }else{
-      
-    //   this.characters= response[index];
-    //   this.OutputText += this.characters;
-    // }
+
+      this.timeoutArray.push(this.timeout)
+      console.log(this.timeoutArray)
   }
   
   submit(){
@@ -93,11 +92,32 @@ export class ConverterComponent implements OnInit {
   }
   
   cancel(){
-    this.ButtonDisabled = false;
-    this.finished = false;
-    this.cancelled= true;
-    clearTimeout(this.timeout);
-    clearTimeout(this.timeout)
+    this.cancelled= true;   
+    for(var i = 0;i < this.timeoutArray.length;i++)
+    {
+      clearTimeout(this.timeoutArray[i]);
+      
+
+      // const index = this.timeoutArray.indexOf(this.timeoutArray[i], 0);
+      // if (index > -1) {
+      
+      this.ForCancelArray.push(this.timeoutArray[i])
+      // }
+      this.CancelTask();
+    }
+
   }
+
+  CancelTask(){
+
+    if(this.timeoutArray.length ==this.ForCancelArray.length){
+
+      this.ButtonDisabled = false;
+      this.finished = false;
+      alert("Cancelled")
+    } 
+
+  }
+    
 
 }
